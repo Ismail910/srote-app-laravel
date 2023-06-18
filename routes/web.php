@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
-Route::get('/', [CategoriesController::class , 'index'])->middleware(['auth'])->name('dashboard');
+Route::get('/', [DashboardController::class , 'index'])->middleware(['auth'])->name('dashboard');
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

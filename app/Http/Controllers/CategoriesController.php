@@ -47,15 +47,21 @@ class CategoriesController extends Controller
      */
     public function show(Categories $categories)
     {
+
         
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Categories $categories)
+    public function edit(Categories $categorie)
     {
-        //
+        $parents = Categories::where('id','<>',$categorie->id)->get();
+        if($categorie){
+            return view('dashboard.categories.edit', compact('parents', 'categorie'));
+        }else{
+            // Port(404);
+        }
     }
 
     /**
