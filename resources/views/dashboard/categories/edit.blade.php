@@ -7,7 +7,7 @@
 @endsection
 
 @section('content')
-<form action="{{ route('categories.update') }}" method="POST" enctype="multipart/form-data">
+<form action="{{route('categories.update')}}" method="POST" enctype="multipart/form-data">
     @csrf
     @method('put')
 
@@ -23,7 +23,7 @@
   <div class="form-group mt-3">
     <label for="exampleInputPassword1"> category Parent</label>
    
-    <select class="form-select" aria-label="Default select example" name="user_id">
+    <select class="form-select" aria-label="Default select example" name="parent_id">
     @foreach($parents as $parantCategory)
       <option value="{{$parantCategory->id}}"@selected->$categorie->parent_id == $parantCategory->id>{{$parantCategory->name}}</option>
       @endforeach

@@ -14,9 +14,7 @@ class CategoriesController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {
-       
-        
+    {  
         $cat = Categories::all();
         return view('dashboard\categories\index',['categories'=>$cat] );
     }
@@ -35,12 +33,54 @@ class CategoriesController extends Controller
      */
     public function store(StoreCategoriesRequest $request)
     {
-        $request->marge([
-            'slug'=> Str::slug($request->post('name'))
-        ]);
-        $category = Categories::create($request->all());
-        return Redirect::route('dashboard\categories\index')->with('success', 'Category created successfully');
+       
+        // $request::marge([
+        //     'slug'=> Str::slug($request->post('name'))
+        // ]);
+        // $category =Categories::create($request->all());
+        // return Redirect::route('dashboard\categories\index')->with('success', 'Category created successfully');
+           
+            
+        // $data = $request->merge([
+        //     'slug' => Str::slug($request->input('name'))
+        // ])->all();
+    
+        // $category = Categories::create($data);
+    
+        // if ($request->hasFile('img')) {
+        //     $image = $request->file('img');
+        //     if ($image->isValid()) {
+        //         $profilePhoto = base64_encode(file_get_contents($image));
+        //         $request->merge(['img' => $profilePhoto]);
+        //     } else {
+        //         return redirect()->back()->with('error', 'Invalid file upload');
+        //     }
+        // }
+        // dd($request);
+        // Categories::create($request->post());
+        ///////////////////////////////////////////////////////////////
+        $categories= request()->all();
+        $categorie = new Categories();
+        $image= request()->img;
+        if($image){
+            $image_info = time().'.'.$image->extension();
+            $categorie->img = $image_info;
+            $image->move(public_path('images/categories'), $image_info);  
+        }
+        $categorie->name= $categories['name'];
+        $categorie->parent_id= $categories['parent_id'];
+        $categorie->description = $categories['description'];
+        $categorie->slug =  Str::slug($request->post('name'));
+        $categorie->status = $categories['status'];
+
+        
+        $categorie->save();
+        
+        return redirect()->route('categories.index')->with('success', 'Category created successfully');
+
+
     }
+   
 
     /**
      * Display the specified resource.
