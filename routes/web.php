@@ -21,7 +21,12 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
-Route::get('/',[DashboardController::class , 'index'])->middleware(['auth'])->name('dashboard');
+
+Route::get('/login/google',[DashboardController::class, 'redirectToGoogle']);
+Route::get('/login/google/callback', [DashboardController::class ,'handleGoogleCallback']);
+
+
+Route::get('/',[DashboardController::class ,'index'])->middleware(['auth'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -31,3 +36,4 @@ Route::middleware('auth')->group(function () {
 
 Route::resource('categories',CategoriesController::class)->middleware("auth");;
 require __DIR__.'/auth.php';
+

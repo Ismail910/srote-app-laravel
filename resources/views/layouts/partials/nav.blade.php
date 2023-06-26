@@ -165,9 +165,10 @@
           <img src="{{asset('dist/img/user2-160x160.jpg')}}" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block">{{ Auth::user()->name }}</a>
+          <a href="#" class="d-block">{{Auth::user()->name}}</a>
           
         </div>
+       
       </div>
 
       <!-- Sidebar Menu -->
@@ -178,7 +179,7 @@
                         @guest
                             @if (Route::has('login'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                    <a class="nav-link" href="{{ route('login') }}">{{__('Login') }}</a>
                                 </li>
                             @endif
 
@@ -208,6 +209,11 @@
                         @endguest
                     </ul>
       </nav>
+      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+       
+       <a href="{{route('categories.index')}}" class="d-block">CATEGORIES</a>
+       
+     </div>
       <!-- /.sidebar-menu -->
     </div>  
     <!-- /.sidebar -->
