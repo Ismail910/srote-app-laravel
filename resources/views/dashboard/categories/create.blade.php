@@ -3,7 +3,7 @@
 
 @section('breadcrumb')
     @parent
-    <li class="breadcrumb-item active">CATEGORIES</li>
+    <li href="" class="breadcrumb-item active">create</li>
 @endsection
 
 @section('content')
@@ -11,7 +11,7 @@
     @csrf
     @method('post')
     
-    @include('dashboard.categories._form');
+    @include('dashboard.categories._form')
  
 
   <button type="submit" class="btn btn-primary mt-3" >Create</button>

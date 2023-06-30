@@ -189,8 +189,8 @@
                                 </li>
                             @endif
                         @else
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                            <li class="nav-item ">
+                                <a id="navbarDropdown" class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                    welcome {{ Auth::user()->name }}
                                 </a>
 
@@ -210,13 +210,15 @@
                     </ul>
       </nav>
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-       
        <a href="{{route('categories.index')}}" class="d-block">CATEGORIES</a>
-       
      </div>
-      <!-- /.sidebar-menu -->
+      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+       <a href="{{route('store.index')}}" class="d-block">STORE</a>
+     </div>
+     <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+       <a href="{{route('project.index')}}" class="d-block">PROJECT</a>
+     </div>
     </div>  
-    <!-- /.sidebar -->
   </aside>
  
                            
