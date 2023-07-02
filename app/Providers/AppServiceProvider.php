@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
+use \Illuminate\Pagination\Paginator;
 
 
 class AppServiceProvider extends ServiceProvider
@@ -25,6 +26,7 @@ class AppServiceProvider extends ServiceProvider
             return ! in_array( strtolower($value) , $params);
             }, 'This name is forbidden'
         );
+       Paginator::useBootstrapFive();
             
     }
 }

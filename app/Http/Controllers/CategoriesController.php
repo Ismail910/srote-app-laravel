@@ -17,7 +17,16 @@ class CategoriesController extends Controller
      */
     public function index()
     {  
-        $cat = Categories::all();
+        $request = request();
+        $query = Categories::query();
+        if($name = $request->query('name')){
+            $query->where('name', 'like', "%{$name}%");
+        }
+        if($status = $request->query('status')){
+            $query->where('status', '=', $status);
+        }
+
+        $cat = $query->paginate(1);
         
         return view('dashboard\categories\index',['categories'=>$cat] );
     }
@@ -131,6 +140,7 @@ class CategoriesController extends Controller
             return view('dashboard.categories.edit', compact('parents', 'categorie'));
         }else{
             
+            
         }
     }
 
@@ -184,7 +194,7 @@ class CategoriesController extends Controller
         if($old_img && isset($data['img'])){
             Storage::disk('public')->delete($old_img);
         }
-        return redirect()->route('categories.index')->with('success', 'Category created successfully');
+        return redirect()->route('categories.index')->with('success', 'Category updeted successfully');
 
     }
 
