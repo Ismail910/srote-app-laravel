@@ -6,7 +6,7 @@
        <a href="{{route('store.index')}}" class="d-block">STORE</a>
      </div>
      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-       <a href="{{route('projects.index')}}" class="d-block">PROJECT</a>
+       <a href="{{route('products.index')}}" class="d-block">PRODUCT</a>
      </div>
    
  

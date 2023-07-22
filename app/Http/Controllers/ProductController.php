@@ -2,18 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Project;
-use App\Http\Requests\StoreProjectRequest;
-use App\Http\Requests\UpdateProjectRequest;
+use App\Models\product;
+use App\Http\Requests\StoreproductRequest;
+use App\Http\Requests\UpdateproductRequest;
 
-class ProjectController extends Controller
+class ProductController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-       
+       $products = product::paginate(5);
+       return view('dashboard.products.index', compact('products'));
     }
 
     /**
@@ -27,7 +28,7 @@ class ProjectController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreProjectRequest $request)
+    public function store(StoreproductRequest $request)
     {
         //
     }
@@ -35,7 +36,7 @@ class ProjectController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Project $project)
+    public function show(product $product)
     {
         //
     }
@@ -43,7 +44,7 @@ class ProjectController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Project $project)
+    public function edit(product $product)
     {
         //
     }
@@ -51,7 +52,7 @@ class ProjectController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateProjectRequest $request, Project $project)
+    public function update(UpdateproductRequest $request, product $product)
     {
         //
     }
@@ -59,7 +60,7 @@ class ProjectController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Project $project)
+    public function destroy(product $product)
     {
         //
     }
