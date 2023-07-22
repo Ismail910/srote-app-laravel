@@ -1,10 +1,11 @@
 @extends('layouts.index')
-@section('title', 'STORE APP')
+@section('title', 'Trashed Categories')
 
 @section('breadcrumb')
 
     @parent
    <li class="breadcrumb-item active"><a href="{{route('categories.index')}}">CATEGORIES</a></li>
+   <li class="breadcrumb-item active"><a href="{{route('categories.trash')}}">trashed</a></li>
 @endsection
 
 @section('content')
@@ -33,9 +34,8 @@
                 <th scope="col">ID</th>
                 <th scope="col">img</th>
                 <th scope="col">Name</th>
-                <th scope="col">Parent</th>
                 <th scope="col">Description</th>
-                <th scope="col">Created At</th>
+                <th scope="col">deleted At</th>
                 <th scope="col">Status</th>
             </tr>
         </thead>
@@ -46,16 +46,19 @@
                 <td>{{ $category->id }}</td>
                 <td><img width="100"  src="{{asset('storage/'.$category->img)}} "/></td>
                 <td>{{ $category->name }}</td>
-                <td>{{ $category->parent_name  }}</td>
                 <td>{{ $category->description  }}</td>
-                <td>{{  $category->created_at }}</td>
+                <td>{{  $category->deleted_at }}</td>
                 <td>{{  $category->status }}</td>
                 
                 <td>
-                    <a class="btn btn-sm btn-outline-success" href="{{ route('categories.edit', $category->id) }}">Edit</a>
+                <form method="post" action="{{ route('categories.restore', $category->id) }}">
+                        @csrf
+                        @method('put')
+                        <button type="submit" class="btn btn-sm btn-outline-success">Restore</button>
+                    </form>
                 </td>
                 <td>
-                    <form method="post" action="{{ route('categories.destroy', $category->id) }}">
+                    <form method="post" action="{{ route('categories.force-delete', $category->id) }}">
                         @csrf
                         @method('delete')
                         <button type="submit" class="btn btn-sm btn-outline-success">Delete</button>
@@ -75,8 +78,7 @@
     {{$categories->withQueryString()->links()}}
 
     <!-- {{$categories->appends(request()->query())->links()}} -->
-     <a class="btn btn-sm btn-outline-success" href="{{ route('categories.create') }}">create categorie</a>
-     <a class="btn btn-sm btn-outline-success" href="{{ route('categories.trash') }}">Trash</a>
+     <a class="btn btn-sm btn-outline-success" href="{{ route('categories.index') }}">Back</a>
               
 </div>
 @endsection

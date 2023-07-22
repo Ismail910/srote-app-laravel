@@ -28,7 +28,7 @@ Route::get('/login/google',[DashboardController::class, 'redirectToGoogle']);
 Route::get('/login/google/callback', [DashboardController::class ,'handleGoogleCallback']);
 
 
-Route::get('/dashboard',[DashboardController::class ,'index'])->middleware(['auth'])->name('dashboard');
+Route::get('/',[DashboardController::class ,'index'])->middleware(['auth'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -36,6 +36,11 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+
+Route::get('/categories/trash', [CategoriesController::class, 'trash'])->name('categories.trash');
+Route::put('/categories/{category}/restore', [CategoriesController::class, 'restore'])->name('categories.restore');
+Route::delete('/categories/{category}/force-delete', [CategoriesController::class, 'force_delete'])->name('categories.force-delete');
+ 
 Route::resource('categories',CategoriesController::class)->middleware("auth");
 Route::resource('projects',ProjectController::class)->middleware("auth");
 Route::resource('store',StoresController::class)->middleware("auth");

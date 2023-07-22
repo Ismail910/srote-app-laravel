@@ -2,8 +2,9 @@
 @section('title', 'STORE APP')
 
 @section('breadcrumb')
-    @parent
-    <li class="breadcrumb-item active">CATEGORIES</li>
+   
+  
+     @parent
 @endsection
 
 @section('content')

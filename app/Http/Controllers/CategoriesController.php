@@ -18,16 +18,27 @@ class CategoriesController extends Controller
     public function index()
     {  
         $request = request();
-        $query = Categories::query();
-        if($name = $request->query('name')){
-            $query->where('name', 'like', "%{$name}%");
-        }
-        if($status = $request->query('status')){
-            $query->where('status', '=', $status);
-        }
+        // $query = Categories::query();
+        // if($name = $request->query('name')){
+        //     $query->where('name', 'like', "%{$name}%");
+        // }
+        // if($status = $request->query('status')){
+        //     $query->where('status', '=', $status);
+        // }
 
-        $cat = $query->paginate(1);
         
+            $cat = Categories::leftjoin('categories as parents', 'parents.id', '=', 'categories.parent_id')
+            ->select([
+                'categories.*',
+                'parents.name as parent_name'
+            ])
+            ->filter($request->query())
+            ->latest()
+            // ->onlyTrashed() dicplayed the category by softDelete
+            ->paginate(2);
+        // $cat = $query->paginate(2);
+        // $cat = Categories::active()->paginate(3);
+        // $cat = Categories::Status('archived')->paginate(2);
         return view('dashboard\categories\index',['categories'=>$cat] );
     }
 
@@ -214,9 +225,9 @@ class CategoriesController extends Controller
 
     ////////////////////////////////////anthor way //////////////////
         $category->delete();
-        if ($category->img){
-            Storage::disk('public')->delete($category->img);
-        }
+        // if ($category->img){
+        //     Storage::disk('public')->delete($category->img);
+        // }
         return back()->with('success', 'Post has been deleted successfully');
       
     }
@@ -270,5 +281,26 @@ class CategoriesController extends Controller
 //     $path = $file->store('uploads', 'public');
 //     return $path;
 // }
+
+
+public function trash(){
+    $categories = Categories::onlyTrashed()->paginate(10);
+    return view('dashboard\categories\trash', compact('categories'));
+}
+
+public function restore(Request $request, $id){
+    $category  = Categories::onlyTrashed()->findOrFail($id);
+    $category->restore();
+    return redirect()->route('categories.trash')->with('success','category restored!');
+}
+public function force_delete($id){
+    $category = Categories::onlyTrashed()->findOrFail($id);
+    $category->forceDelete();
+     if ($category->img){
+            Storage::disk('public')->delete($category->img);
+        }
+    return redirect()->route('categories.trash')->with('success','category deleted!');
+}
+
 
 }

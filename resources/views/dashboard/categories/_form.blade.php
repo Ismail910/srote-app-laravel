@@ -14,7 +14,7 @@
 
            
             <option value="{{ $parantCategory->id }}" {{ $categorie->parent_id == $parantCategory->id ? 'selected' : '' }}>
-                {{ $parantCategory->id }}
+                {{ $parantCategory->name }}
             </option>
             @endforeach
         </select>
