@@ -26,6 +26,7 @@ class AppServiceProvider extends ServiceProvider
             return ! in_array( strtolower($value) , $params);
             }, 'This name is forbidden'
         );
+        
        Paginator::useBootstrapFive();
             
     }

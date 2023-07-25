@@ -1,10 +1,10 @@
 <?php
 
-use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\StoresController;
+use App\Http\Controllers\StoreController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -37,12 +37,12 @@ Route::middleware('auth')->group(function () {
 });
 
 
-Route::get('/categories/trash', [CategoriesController::class, 'trash'])->name('categories.trash');
-Route::put('/categories/{category}/restore', [CategoriesController::class, 'restore'])->name('categories.restore');
-Route::delete('/categories/{category}/force-delete', [CategoriesController::class, 'force_delete'])->name('categories.force-delete');
+Route::get('/categories/trash', [CategoryController::class, 'trash'])->name('categories.trash');
+Route::put('/categories/{category}/restore', [CategoryController::class, 'restore'])->name('categories.restore');
+Route::delete('/categories/{category}/force-delete', [CategoryController::class, 'force_delete'])->name('categories.force-delete');
  
-Route::resource('categories',CategoriesController::class)->middleware("auth");
+Route::resource('categories',CategoryController::class)->middleware("auth");
 Route::resource('products',ProductController::class)->middleware("auth");
-Route::resource('store',StoresController::class)->middleware("auth");
+Route::resource('store',StoreController::class)->middleware("auth");
 require __DIR__.'/auth.php';
 

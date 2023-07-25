@@ -2,9 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Category;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateStoresRequest extends FormRequest
+class UpdateCategoryRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -21,8 +22,13 @@ class UpdateStoresRequest extends FormRequest
      */
     public function rules(): array
     {
+        $id = $this->route('category');  
+        return Category::rules($id);
+    }
+
+    public function messages(){
         return [
-            //
+            'name.unique' => 'This name is already exists',
         ];
     }
 }

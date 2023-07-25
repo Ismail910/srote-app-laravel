@@ -2,10 +2,10 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Categories;
+use App\Models\Category;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreCategoriesRequest extends FormRequest
+class StoreCategoryRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,7 +23,8 @@ class StoreCategoriesRequest extends FormRequest
     public function rules(): array
     {
         $id = $this->route('category');  
-        return Categories::rules($id);
+       
+        return Category::rules($id);
     }
 
     public function messages(){

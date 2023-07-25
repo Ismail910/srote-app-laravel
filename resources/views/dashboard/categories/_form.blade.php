@@ -6,13 +6,9 @@
  
   <div class="form-group mt-3">
     <label for="exampleInputPassword1"> category Parent</label>
-   
-    
      <select class="form-select" aria-label="Default select example" name="parent_id">
        <option value="">parent</option>
             @foreach($parents as $parantCategory)
-
-           
             <option value="{{ $parantCategory->id }}" {{ $categorie->parent_id == $parantCategory->id ? 'selected' : '' }}>
                 {{ $parantCategory->name }}
             </option>

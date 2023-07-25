@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
-use App\Models\Categories;
-use App\Models\Stores;
+use App\Models\Category;
+use App\Models\Store;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -27,8 +27,8 @@ class ProductFactory extends Factory
            'image' => $this->faker->imageUrl(600, 600),
            'price' => $this->faker->randomFloat(1, 1,499),
            'compare_price' => $this->faker->randomFloat(1, 1,500),
-           'category_id'=> Categories::inRandomOrder()->first()->id,
-           'store_id'=> Stores::inRandomOrder()->first()->id,
+           'category_id'=> Category::inRandomOrder()->first()->id,
+           'store_id'=> Store::inRandomOrder()->first()->id,
            'featured'=> rand(0,1),
         ];
     }

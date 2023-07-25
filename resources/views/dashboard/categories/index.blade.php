@@ -34,6 +34,7 @@
                 <th scope="col">img</th>
                 <th scope="col">Name</th>
                 <th scope="col">Parent</th>
+                <th scope="col">product #</th>
                 <th scope="col">Description</th>
                 <th scope="col">Created At</th>
                 <th scope="col">Status</th>
@@ -45,8 +46,12 @@
                 
                 <td>{{ $category->id }}</td>
                 <td><img width="100"  src="{{asset('storage/'.$category->img)}} "/></td>
-                <td>{{ $category->name }}</td>
-                <td>{{ $category->parent_name  }}</td>
+                <td><a href="{{route('categories.show', $category->id)}}" >{{ $category->name }}</a></td>
+                <td>{{$category->parent->name}}</td>
+                <!-- <td>{{ $category->parent? $category->parent->name: 'Main Category'}}</td> -->
+                <!-- <td>{{ $category->parent_name  }}</td> -->
+
+                <td> {{ $category->products_count }}</td>
                 <td>{{ $category->description  }}</td>
                 <td>{{  $category->created_at }}</td>
                 <td>{{  $category->status }}</td>

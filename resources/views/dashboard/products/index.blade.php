@@ -44,17 +44,17 @@
             @forelse($products as $product)
             <tr class="">
                 
-                <td>{{ $product->id }}</td>
-                <td><img width="100"  src="{{asset('storage/'.$product->img)}} "/></td>
-                <td>{{ $product->name }}</td>
-                <td>{{ $product->category_id  }}</td>
-                <td>{{ $product->store_id  }}</td>
-                <td>{{ $product->description  }}</td>
-                <td>{{  $product->created_at }}</td>
-                <td>{{  $product->status }}</td>
+                <td>{{ $product->id}}</td>
+                <td><img width="100" src="{{asset('storage/'.$product->img)}}"/></td>
+                <td>{{ $product->name}}</td>
+                <td>{{ $product->category?$product->category->name : '-'}}</td>
+                <td>{{ $product->store->name}}</td>
+                <td>{{ $product->description}}</td>
+                <td>{{ $product->created_at}}</td>
+                <td>{{ $product->status}}</td>
                 
                 <td>
-                    <a class="btn btn-sm btn-outline-success" href="{{ route('products.edit', $product->id) }}">Edit</a>
+                    <a class="btn btn-sm btn-outline-success" href="{{route('products.edit', $product->id) }}">Edit</a>
                 </td>
                 <td>
                     <form method="post" action="{{ route('products.destroy', $product->id) }}">

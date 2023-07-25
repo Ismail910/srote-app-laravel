@@ -7,9 +7,9 @@ use Illuminate\Support\Str;
 
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Stores>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Store>
  */
-class StoresFactory extends Factory
+class StoreFactory extends Factory
 {
     /**
      * Define the model's default state.
