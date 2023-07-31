@@ -68,7 +68,7 @@ class Category extends Model
             'name'=>[
                 'required',
                 'string',
-                'min:3',
+                'min:3',    
                 'max:50',
                 //////////////
                 // "unique:Categories,name,$id",

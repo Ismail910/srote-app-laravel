@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('city');
             $table->string('state')->nullable();
             $table->string('postl_code')->nullable();
-            $table->char('cauntry', 2);
+            $table->char('country', 2);
             $table->char('locale',2)->default('en');
             $table->timestamps();
             

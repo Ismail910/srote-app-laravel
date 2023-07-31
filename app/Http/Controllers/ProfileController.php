@@ -26,8 +26,8 @@ class ProfileController extends Controller
         $user = Auth::user();
         return view('profile.edit', [
             'user' => $user,
-            'countries' => Countries::getNames('ar'),
-            'locales' => Languages::getNames('ar'),
+            'countries' => Countries::getNames(),
+            'locales' => Languages::getNames(),
 
         ]);
     }
@@ -38,24 +38,24 @@ class ProfileController extends Controller
     public function update(Request $request)
     {
        
-        $request->validate([
-            'first_name' => ['required', 'string', 'max:255'],
-            'last_name' => ['required', 'string', 'max:255'],
-            'birthday'=>['nullable','date', 'before:today'],
-            'gender'=>['in:male,female'],
-            'street_address'=>['required', 'string'],
-            'city'=>['required', 'string'],
-            'state'=>['required', 'string'],
-            'postal_code'=>['required', 'string'],
-            'country'=>['required', 'string', 'size:2'],
-            'locale'=>['required', 'string', 'size:2'],
-        ]);
+        // $request->validate([
+        //     'first_name' => ['required', 'string', 'max:255'],
+        //     'last_name' => ['required', 'string', 'max:255'],
+        //     'birthday'=>['nullable','date', 'before:today'],
+        //     'gender'=>['in:male,female'],
+        //     'street_address'=>['required', 'string'],
+        //     'city'=>['required', 'string'],
+        //     'state'=>['required', 'string'],
+        //     'postal_code'=>['required', 'string'],
+        //     'country'=>['required', 'string', 'size:2'],
+        //     'locale'=>['required', 'string', 'size:2'],
+        // ]);
 
        
         $user = $request->user();
        
         $profile = $user->profile;
-       
+      
         // if($profile->user_id){
         //     $profile->update($request->all());
         // }else{
@@ -69,7 +69,7 @@ class ProfileController extends Controller
 
           /////////////////// another way///
         $user->profile->fill($request->all())->save();
-           
+        dd($user);
         return redirect()->route('/')->with('success','profile updated successfully');
 
     }

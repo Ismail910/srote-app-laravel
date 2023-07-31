@@ -52,27 +52,30 @@
             <x-form.input name="postl_code" :value="$user->profile->postl_code"/>
         </div>
         <div class="form-group mt-3">
-                <label for="exampleInputPassword1"> Country </label>
-                <select class="form-select" aria-label="Default select example" name="cauntry">
-                <option value="">country</option>
-                        @foreach($countries as  $country)
-                        <option value="{{$user->profile->country}}">
-                            {{ $country }}
-                        </option>
-                        @endforeach
-                </select>
-        </div>
-        <div class="form-group mt-3">
-                <label for="exampleInputPassword1"> Language </label>
-                <select class="form-select" aria-label="Default select example" name="locale">
-                <option value="">language</option>
-                        @foreach($locales as $locale)
-                        <option value="{{$user->profile->locale}}">
-                            {{ $locale }}
-                        </option>
-                        @endforeach
-                </select>
-        </div>
+    <label for="exampleInputPassword1">Country</label>
+    <select class="form-select" aria-label="Default select example" name="country" value="{{$user->profile->country}}">
+        <option value="">country</option>
+        @foreach($countries as $country)
+        <option value="{{$country}}">
+            {{ $country }}
+        </option>
+        @endforeach
+    </select>
+</div>
+
+
+<div class="form-group mt-3">
+    <label for="exampleInputPassword1">Language</label>
+    <select class="form-select" aria-label="Default select example" name="locale" value="{{$user->profile->locale}}">
+        <option value="">language</option>
+        @foreach($locales as $locale)
+        <option value="{{$locale}}">
+            {{ $locale }}
+        </option>
+        @endforeach
+    </select>
+</div>
+
        
     <button type="submit" class="btn btn-primary mt-3">Create</button>
 </form>
