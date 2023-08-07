@@ -1,24 +1,42 @@
-    @props([
-        'type' => 'text',
-        'name',
-        'value' => '',
-        'lable' => false
-    ])
-    @if ($lable)
-        <label for="exampleInputEmail1">{{$lable}}</label>
-    @endif
-        <input 
-        type="{{$type}}" 
-        name="{{$name}}"  
-        id="exampleInputEmail1" 
-        value="{{old($name, $value)}}"
-        aria-describedby="emailHelp" 
-        placeholder="Enter {{$name}}"  
-        {{$attributes->class([
+@props([
+    'type' => 'text',
+    'name',
+    'value' => '',
+    'label' => false
+])
+
+@if ($label)
+    <label for="{{ $name }}">{{ $label }}</label>
+@endif
+
+@if ($type === 'date')
+    @php
+   
+        $dateValue = $value instanceof \DateTime ? $value->format('Y-m-d') : ($value ?: '');
+    @endphp
+
+    <input
+        type="date"
+        name="{{ $name }}"
+        id="{{ $name }}"
+        value="{{ $dateValue }}"
+        {{ $attributes->class([
             'form-control',
-            'is-invalid' =>  $errors->has($name)
-        ])}}>
-    
-        @error($name)
-    <div class="alert alert-danger">{{$message}}</div>
-    @enderror
+            'is-invalid' => $errors->has($name)
+        ]) }}>
+@else
+    <input
+        type="{{ $type }}"
+        name="{{ $name }}"
+        id="{{ $name }}"
+        value="{{ old($name, $value) }}"
+        placeholder="Enter {{ $name }}"
+        {{ $attributes->class([
+            'form-control',
+            'is-invalid' => $errors->has($name)
+        ]) }}>
+@endif
+
+@error($name)
+    <div class="alert alert-danger">{{ $message }}</div>
+@enderror

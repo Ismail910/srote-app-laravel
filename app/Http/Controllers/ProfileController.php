@@ -26,8 +26,8 @@ class ProfileController extends Controller
         $user = Auth::user();
         return view('profile.edit', [
             'user' => $user,
-            'countries' => Countries::getNames(),
-            'locales' => Languages::getNames(),
+            'countries' => Countries::getNames("en"),
+            'locales' => Languages::getNames("en"),
 
         ]);
     }
@@ -37,6 +37,7 @@ class ProfileController extends Controller
      */
     public function update(Request $request)
     {
+       
        
         // $request->validate([
         //     'first_name' => ['required', 'string', 'max:255'],
@@ -50,11 +51,16 @@ class ProfileController extends Controller
         //     'country'=>['required', 'string', 'size:2'],
         //     'locale'=>['required', 'string', 'size:2'],
         // ]);
+        // dd($request->all());
+        //  $user = $request->user();
+        //  $user->profile->fill($request->all())->save();
+
+      
 
        
-        $user = $request->user();
+        // $user = $request->user();
        
-        $profile = $user->profile;
+        // $profile = $user->profile;
       
         // if($profile->user_id){
         //     $profile->update($request->all());
@@ -68,9 +74,30 @@ class ProfileController extends Controller
         // }
 
           /////////////////// another way///
-        $user->profile->fill($request->all())->save();
-        dd($user);
-        return redirect()->route('/')->with('success','profile updated successfully');
+        // $user = $request->user();
+        // $profile = $user->profile;
+        // $user->profile->fill($request->all())->save();
+          /////////////////// another way///
+
+          $user = $request->user();
+          $profile = $user->profile;
+          
+          $profile->fill([
+              'first_name' => $request->input('first_name'),
+              'last_name' => $request->input('last_name'),
+              'birthday' => $request->input('birthday'),
+              'gender' => $request->input('gender'),
+              'street_address' => $request->input('street_address'),
+              'city' => $request->input('city'),
+              'state' => $request->input('state'),
+              'postl_code' => $request->input('postl_code'),
+              'country' => substr($request->input('country'), 0, 2),
+              'locale' => substr($request->input('locale'), 0, 2),
+          ]);
+          
+          $profile->save();
+          
+        return redirect()->route('profile.edit')->with('success','profile updated successfully');
 
     }
 

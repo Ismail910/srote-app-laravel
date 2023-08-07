@@ -1,4 +1,4 @@
-@props ([
+<!-- @props ([
         'name' ,'option', 'checked' => false
     ])
 
@@ -17,4 +17,17 @@
       
         </div>
 
+@endforeach -->
+
+@props(['name', 'option', 'checked' => false])
+
+@foreach ($option as $value => $text)
+    <div class="form-check">
+        <input type="radio" name="{{ $name }}" value="{{ $value }}"
+            {{ $attributes->merge(['class' => 'form-check-input', 'checked' => old($name, $checked) == $value]) }}
+            class="form-check-input {{ $errors->has($name) ? 'is-invalid' : '' }}"
+        />
+
+        <label class="form-check-label" for="{{ $name }}_{{ $value }}">{{ $text }}</label>
+    </div>
 @endforeach
