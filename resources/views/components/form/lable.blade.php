@@ -2,4 +2,4 @@
         'id' => '',
     ])
 
-<lable for="$id" >{{$slot}}</label>
+    <label for="{{$id}}">{{$slot}}</label>

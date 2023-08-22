@@ -6,9 +6,10 @@ use App\Models\Category;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use Request;
+// use Request;
 
 class CategoryController extends Controller
 {
@@ -16,9 +17,9 @@ class CategoryController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {  
+    {
 
-       
+
 
         $request = request();
         // $query = Category::query();
@@ -27,42 +28,43 @@ class CategoryController extends Controller
         // }
         // if($status = $request->query('status')){
         //     $query->where('status', '=', $status);
-        // }   
-           
-            $cat = Category::with('parent')
+        // }
+
+        $cat = Category::with('parent')
             /*leftjoin('categories as parents', 'parents.id', '=', 'categories.parent_id')
             ->select([
                 'categories.*',
                 'parents.name as parent_name'
             ])*/
 
-          
-            
+
+
             ->withCount([
-                'products'=>function($query){
+                'products' => function ($query) {
                     $query->where('status', '=', 'active');
-                }]) 
+                }
+            ])
             // ->select('categories.*')
             // ->selectRaw('(SELECT COUNT(*) from products where status = "active" AND category_id = categories.id) as products_count')
             // ->addSelect(DB::raw('(SELECT COUNT(*) from products where AND status = 'active' AND category_id = categories.id) as products_count)')
             ->filter($request->query())
             // ->latest()
             // ->onlyTrashed() dicplayed the category by softDelete
-           
-            ->paginate(10);
+
+            ->paginate(5);
         // $cat = $query->paginate(2);
         // $cat = Category::active()->paginate(3);
         // $cat = Category::Status('archived')->paginate(2);
-        return view('dashboard\categories\index',['categories'=>$cat] );
+        return view('dashboard\categories\index', ['categories' => $cat]);
     }
-    
 
-  
+
+
     public function create()
     {
         $parents = Category::all();
         $categorie = new Category();
-        return view('dashboard\categories\create', compact('parents','categorie'));
+        return view('dashboard\categories\create', compact('parents', 'categorie'));
     }
 
     /**
@@ -70,20 +72,20 @@ class CategoryController extends Controller
      */
     public function store(StoreCategoryRequest $request)
     {
-       
+
         // $request::marge([
         //     'slug'=> Str::slug($request->post('name'))
         // ]);
         // $category =Category::create($request->all());
         // return Redirect::route('dashboard\categories\index')->with('success', 'Category created successfully');
-           
-            
+
+
         // $data = $request->merge([
         //     'slug' => Str::slug($request->input('name'))
         // ])->all();
-    
+
         // $category = Category::create($data);
-    
+
         // if ($request->hasFile('img')) {
         //     $image = $request->file('img');
         //     if ($image->isValid()) {
@@ -103,7 +105,7 @@ class CategoryController extends Controller
         // if($image){
         //     $image_info = time().'.'.$image->extension();
         //     $categorie->img = $image_info;
-        //     $image->move(public_path('images/categories'), $image_info);  
+        //     $image->move(public_path('images/categories'), $image_info);
         // }
         // $categorie->name= $Category['name'];
         // $categorie->parent_id= $Category['parent_id'];
@@ -116,10 +118,10 @@ class CategoryController extends Controller
         /////////////////////////////// anthor way ////////////////////////////////
 
         $request->merge([
-            "slug"=>str::slug($request->post('name')),
-           
+            "slug" => str::slug($request->post('name')),
+
         ]);
-       $data = $request->except('img');
+        $data = $request->except('img');
         // if($request->hasFile('img')){
         //     $file = $request->file('img');
         //     // $path = $file->store('uploads',[
@@ -133,38 +135,36 @@ class CategoryController extends Controller
             $data['img'] = $path;
         }
         $data['parent_id'] = $request->parent_id;
-       
+
         Category::create($data);
-       
+
 
         return redirect()->route('categories.index')->with('success', 'Category created successfully');
     }
-   
+
 
     /**
      * Display the specified resource.
      */
     public function show(Category $category)
     {
-        
-       return view('dashboard.categories.show', [
-        'category' => $category
-       ]);
+
+        return view('dashboard.categories.show', [
+            'category' => $category
+        ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit( $id)
+    public function edit($id)
     {
         $parents = Category::where('id', '<>', $id)
-        ->get();
-        $categorie = Category::where('id' , $id)->first();
-        if($categorie){
+            ->get();
+        $categorie = Category::where('id', $id)->first();
+        if ($categorie) {
             return view('dashboard.categories.edit', compact('parents', 'categorie'));
-        }else{
-            
-            
+        } else {
         }
     }
 
@@ -176,15 +176,15 @@ class CategoryController extends Controller
         // $category =  request()->all();
         // $categories =Category::where('id', $id)->first();
         // $img = request()->img;
-       
+
         // if($img){
         //     if ($categories->img && file_exists(public_path('images/categories/' . $categories->img))){
         //         unlink(public_path('images/categories/' . $categories->img));
         //     }
         //     $image_info = time().'.'.$img->extension();
         //     $categories->img = $image_info;
-        //     $img->move(public_path('images/categories'), $image_info); 
-            
+        //     $img->move(public_path('images/categories'), $image_info);
+
         // }
         // $categories->name = $category['name'];
         // if( $request['parent_id']){
@@ -196,10 +196,10 @@ class CategoryController extends Controller
 
         // $categories->save();
         ///////////////////////////////////// anthor way ////////////////////////////
-        
+
         $category = Category::findOrFail($id);
         $old_img = $category->img;
-        
+
         // $data = $request->except('img');
         // if ($request->hasFile('img')){
         //     $file = $request->file('img');
@@ -215,11 +215,10 @@ class CategoryController extends Controller
             }
         }
         $category->update($data);
-        if($old_img && isset($data['img'])){
+        if ($old_img && isset($data['img'])) {
             Storage::disk('public')->delete($old_img);
         }
         return redirect()->route('categories.index')->with('success', 'Category updeted successfully');
-
     }
 
     /**
@@ -227,56 +226,56 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-    //   if ($category){
-    //         if($category->img ){
-    //             try {
-    //                 unlink(public_path('images/categories/' . $category->img));
-    //             } catch (\Throwable $th) {}
-    //         }
-    //     }
-    //         $category->delete();
+        //   if ($category){
+        //         if($category->img ){
+        //             try {
+        //                 unlink(public_path('images/categories/' . $category->img));
+        //             } catch (\Throwable $th) {}
+        //         }
+        //     }
+        //         $category->delete();
 
-    ////////////////////////////////////anthor way //////////////////
+        ////////////////////////////////////anthor way //////////////////
         $category->delete();
         // if ($category->img){
         //     Storage::disk('public')->delete($category->img);
         // }
         return back()->with('success', 'Post has been deleted successfully');
-      
     }
 
-    public function uploadImage( $request){
-        if(!$request->hasFile('img')){
+    public function uploadImage($request)
+    {
+        if (!$request->hasFile('img')) {
             return;
         }
-       $file = $request->file('img');
-       $path = $file->store('uploads','public');
-       return $path;
+        $file = $request->file('img');
+        $path = $file->store('uploads', 'public');
+        return $path;
     }
-   
+
 
 
     // public function update(UpdateCategoryRequest $request, string $id)
     // {
-        // Retrieve the category by ID
-        // $category = Category::findOrFail($id);
+    // Retrieve the category by ID
+    // $category = Category::findOrFail($id);
 
-        // Remove the 'img' field from the request data
-        // $data = $request->except('img');
+    // Remove the 'img' field from the request data
+    // $data = $request->except('img');
 
-        // Check if a new image file is uploaded
-        // if ($request->hasFile('img')) {
-        //     // Upload the new image
-        //     $path = $this->uploadImage($request);
+    // Check if a new image file is uploaded
+    // if ($request->hasFile('img')) {
+    //     // Upload the new image
+    //     $path = $this->uploadImage($request);
 
-        //     // Update the 'img' field in the $data array
-        //     $data['img'] = $path;
+    //     // Update the 'img' field in the $data array
+    //     $data['img'] = $path;
 
-        //     // Delete the old image file
-        //     if ($category->img && Storage::disk('public')->exists($category->img)) {
-        //         Storage::disk('public')->delete($category->img);
-        //     }
-        // }
+    //     // Delete the old image file
+    //     if ($category->img && Storage::disk('public')->exists($category->img)) {
+    //         Storage::disk('public')->delete($category->img);
+    //     }
+    // }
 
     //     // Update the category with the new data
     //     $category->update($data);
@@ -284,36 +283,37 @@ class CategoryController extends Controller
     //     return redirect()->route('categories.index')->with('success', 'Category updated successfully');
     // }
 
-// public function uploadImage( $request)
-// {
-//     if (!$request->hasFile('img')) {
-//         return null;
-//     }
+    // public function uploadImage( $request)
+    // {
+    //     if (!$request->hasFile('img')) {
+    //         return null;
+    //     }
 
-//     $file = $request->file('img');
-//     $path = $file->store('uploads', 'public');
-//     return $path;
-// }
+    //     $file = $request->file('img');
+    //     $path = $file->store('uploads', 'public');
+    //     return $path;
+    // }
 
 
-public function trash(){
-    $categories = Category::onlyTrashed()->paginate(10);
-    return view('dashboard\categories\trash', compact('categories'));
-}
+    public function trash()
+    {
+        $categories = Category::onlyTrashed()->paginate(10);
+        return view('dashboard\categories\trash', compact('categories'));
+    }
 
-public function restore(Request $request, $id){
-    $category  = Category::onlyTrashed()->findOrFail($id);
-    $category->restore();
-    return redirect()->route('categories.trash')->with('success','category restored!');
-}
-public function force_delete($id){
-    $category = Category::onlyTrashed()->findOrFail($id);
-    $category->forceDelete();
-     if ($category->img){
+    public function restore(Request $request, $id)
+    {
+        $category  = Category::onlyTrashed()->findOrFail($id);
+        $category->restore();
+        return redirect()->route('categories.trash')->with('success', 'category restored!');
+    }
+    public function force_delete($id)
+    {
+        $category = Category::onlyTrashed()->findOrFail($id);
+        $category->forceDelete();
+        if ($category->img) {
             Storage::disk('public')->delete($category->img);
         }
-    return redirect()->route('categories.trash')->with('success','category deleted!');
-}
-
-
+        return redirect()->route('categories.trash')->with('success', 'category deleted!');
+    }
 }

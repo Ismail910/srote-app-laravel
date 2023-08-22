@@ -11,11 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('product_tag', function (Blueprint $table) {
-           $table->foreignId('product_id')->constrained('products')->cascadeOnDelete();
-           $table->foreignId('tag_id')->constrained('tags')->cascadeOnDelete();
 
-           $table->primary(['product_id', 'tag_id']);
+        Schema::table('stores', function (Blueprint $table) {
+            $table->softDeletes();
         });
     }
 
@@ -24,6 +22,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('product_tag');
+        Schema::table('stores', function (Blueprint $table) {
+            $table->dropSoftDeletes();
+        });
     }
 };

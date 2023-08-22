@@ -11,10 +11,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
 
 
-class product extends Model
+class Product extends Model
 {
     use HasFactory, SoftDeletes;
-    protected $fillable = ['store_id', 'category_id','name','slug', 'description', 'status', 'image', 'price','compare_price', 'options', 'rating', 'featured'];
+    protected $fillable = ['store_id', 'category_id','name','slug', 'description', 'status', 'image', 'price','compare_price'];
 
     protected static function booted(){
         // static::addGlobalScope('store', function(Builder $builder){
@@ -23,16 +23,16 @@ class product extends Model
         //         $builder->where('store_id', '=', $user->store_id);
         //     }
         // });
-        
+
         ////////////////////////////////////////
         static::addGlobalScope('store', new StoreScope());
-      
+
     }
 
     public function category(){
         return $this->belongsTo(Category::class, 'category_id', 'id');
     }
-    
+
     public function store(){
         return $this->belongsTo(Store::class, 'store_id', 'id');
     }

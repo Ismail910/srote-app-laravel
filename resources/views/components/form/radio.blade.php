@@ -4,7 +4,7 @@
 
 @foreach($option as $value => $text)
 
-       
+
         <div class="form-chech">
             <input  type="radio" name="{{$name}}" value="{{$value}}"
             @checked(old($name, $checked) == $value)
@@ -14,7 +14,7 @@
         ])}} class="form-chech-input" />
 
         <label class="form-label" for="form6Example4">{{$text}}</label>
-      
+
         </div>
 
 @endforeach -->

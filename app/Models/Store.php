@@ -8,16 +8,18 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Store extends Model
 {
-    use HasFactory;
-    protected $fillable = [
-        'name',
-        'slug',
-        'img',
-        'status',
-        'description'
-    ];
+  use HasFactory, SoftDeletes;
+  protected $fillable = [
+    'name',
+    'slug',
+    'logo_image',
+    'cover_image',
+    'status',
+    'description'
+  ];
 
-      public function products(){
-        return $this->hasMany(product::class, 'srore_id', 'id');
-      }
+  public function products()
+  {
+    return $this->hasMany(product::class, 'store_id', 'id');
+  }
 }

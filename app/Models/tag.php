@@ -4,8 +4,20 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Monolog\Formatter\GoogleCloudLoggingFormatter;
 
-class tag extends Model
+class Tag extends Model
 {
     use HasFactory;
+
+    public $timestamps = false;
+
+    protected $fillable = [
+        'name' , 'slug'
+    ];
+
+    public function products()
+    {
+        return $this->belongsTo(Product::class);
+    }
 }

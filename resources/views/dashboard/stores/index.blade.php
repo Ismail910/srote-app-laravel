@@ -4,7 +4,7 @@
 @section('breadcrumb')
 
 @parent
-<li class="breadcrumb-item active"><a href="{{route('categories.index')}}">CATEGORIES</a></li>
+<li class="breadcrumb-item active"><a href="{{route('stores.index')}}">stores</a></li>
 @endsection
 
 @section('content')
@@ -33,34 +33,27 @@
                 <th scope="col">ID</th>
                 <th scope="col">img</th>
                 <th scope="col">Name</th>
-                <th scope="col">Parent</th>
-                <th scope="col">product #</th>
                 <th scope="col">Description</th>
                 <th scope="col">Created At</th>
                 <th scope="col">Status</th>
             </tr>
         </thead>
         <tbody>
-            @forelse($categories as $category)
+            @forelse($stores as $store)
             <tr class="">
 
-                <td>{{ $category->id }}</td>
-                <td><img width="100" src="{{asset('storage/'.$category->img)}} " /></td>
-                <td><a href="{{route('categories.show', $category->id)}}">{{ $category->name }}</a></td>
-                <td>{{$category->parent->name}}</td>
-                <!-- <td>{{ $category->parent? $category->parent->name: 'Main Category'}}</td> -->
-                <!-- <td>{{ $category->parent_name  }}</td> -->
-
-                <td> {{ $category->products_count }}</td>
-                <td>{{ $category->description  }}</td>
-                <td>{{ $category->created_at }}</td>
-                <td>{{ $category->status }}</td>
+                <td>{{ $store->id}}</td>
+                <td><img width="100" src="{{ asset('storage/'.$store->cover_image) }}" /></td>
+                <td>{{ $store->name}}</td>
+                <td>{{ $store->description}}</td>
+                <td>{{ $store->created_at}}</td>
+                <td>{{ $store->status}}</td>
 
                 <td>
-                    <a class="btn btn-sm btn-outline-success" href="{{ route('categories.edit', $category->id) }}">Edit</a>
+                    <a class="btn btn-sm btn-outline-success" href="{{route('stores.edit', $store->id) }}">Edit</a>
                 </td>
                 <td>
-                    <form method="post" action="{{ route('categories.destroy', $category->id) }}">
+                    <form method="post" action="{{ route('stores.destroy', $store->id) }}">
                         @csrf
                         @method('delete')
                         <button type="submit" class="btn btn-sm btn-outline-success">Delete</button>
@@ -70,18 +63,18 @@
 
             @empty
             <tr>
-                <td colspan="7">No categories defined</td>
+                <td colspan="7">No stores defined</td>
             </tr>
 
             @endforelse
         </tbody>
     </table>
 
-    {{$categories->withQueryString()->links()}}
+    {{$stores->withQueryString()->links()}}
 
-    <!-- {{$categories->appends(request()->query())->links()}} -->
-    <a class="btn btn-sm btn-outline-success" href="{{ route('categories.create') }}">create categorie</a>
-    <a class="btn btn-sm btn-outline-success" href="{{ route('categories.trash') }}">Trash</a>
+    <!-- {{$stores->appends(request()->query())->links()}} -->
+    <a class="btn btn-sm btn-outline-success" href="{{ route('stores.create') }}">create store</a>
+    <a class="btn btn-sm btn-outline-success" href="{{ route('stores.trash') }}">Trash</a>
 
 </div>
 @endsection

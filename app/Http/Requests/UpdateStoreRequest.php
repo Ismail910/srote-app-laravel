@@ -22,7 +22,11 @@ class UpdateStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'required|string|unique:stores,id',
+            'status' => 'required|in:active,archived',
+            'description' => 'required|string',
+            'logo_image' => 'nullable',
+            'cover_image' => 'nullable',
         ];
     }
 }
