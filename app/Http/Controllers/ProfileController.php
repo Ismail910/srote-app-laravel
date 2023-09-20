@@ -21,11 +21,13 @@ class ProfileController extends Controller
     /**
      * Display the user's profile form.
      */
+    // composer require symfony/intl
     public function edit(): View
     {
         $user = Auth::user();
         return view('profile.edit', [
             'user' => $user,
+
             'countries' => Countries::getNames("en"),
             'locales' => Languages::getNames("en"),
 
@@ -37,8 +39,8 @@ class ProfileController extends Controller
      */
     public function update(Request $request)
     {
-       
-       
+
+
         // $request->validate([
         //     'first_name' => ['required', 'string', 'max:255'],
         //     'last_name' => ['required', 'string', 'max:255'],
@@ -55,13 +57,13 @@ class ProfileController extends Controller
         //  $user = $request->user();
         //  $user->profile->fill($request->all())->save();
 
-      
 
-       
+
+
         // $user = $request->user();
-       
+
         // $profile = $user->profile;
-      
+
         // if($profile->user_id){
         //     $profile->update($request->all());
         // }else{
@@ -73,32 +75,31 @@ class ProfileController extends Controller
         //     $user->profile()->create($request->all());
         // }
 
-          /////////////////// another way///
+        /////////////////// another way///
         // $user = $request->user();
         // $profile = $user->profile;
         // $user->profile->fill($request->all())->save();
-          /////////////////// another way///
+        /////////////////// another way///
 
-          $user = $request->user();
-          $profile = $user->profile;
-          
-          $profile->fill([
-              'first_name' => $request->input('first_name'),
-              'last_name' => $request->input('last_name'),
-              'birthday' => $request->input('birthday'),
-              'gender' => $request->input('gender'),
-              'street_address' => $request->input('street_address'),
-              'city' => $request->input('city'),
-              'state' => $request->input('state'),
-              'postl_code' => $request->input('postl_code'),
-              'country' => substr($request->input('country'), 0, 2),
-              'locale' => substr($request->input('locale'), 0, 2),
-          ]);
-          
-          $profile->save();
-          
-        return redirect()->route('profile.edit')->with('success','profile updated successfully');
+        $user = $request->user();
+        $profile = $user->profile;
 
+        $profile->fill([
+            'first_name' => $request->input('first_name'),
+            'last_name' => $request->input('last_name'),
+            'birthday' => $request->input('birthday'),
+            'gender' => $request->input('gender'),
+            'street_address' => $request->input('street_address'),
+            'city' => $request->input('city'),
+            'state' => $request->input('state'),
+            'postl_code' => $request->input('postl_code'),
+            'country' => substr($request->input('country'), 0, 2),
+            'locale' => substr($request->input('locale'), 0, 2),
+        ]);
+
+        $profile->save();
+
+        return redirect()->route('profile.edit')->with('success', 'profile updated successfully');
     }
 
 
@@ -106,7 +107,7 @@ class ProfileController extends Controller
     // public function update(ProfileUpdateRequest $request): RedirectResponse
     // {
 
-        
+
     //     $request->user()->fill($request->validated());
 
     //     if ($request->user()->isDirty('email')) {
