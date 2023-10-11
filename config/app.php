@@ -72,6 +72,9 @@ return [
 
     'timezone' => 'UTC',
 
+
+    'currency'=>'EGY',
+
     /*
     |--------------------------------------------------------------------------
     | Application Locale Configuration
@@ -188,6 +191,7 @@ return [
     'aliases' => Facade::defaultAliases()->merge([
         // 'Example' => App\Facades\Example::class,
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
+        'Currency' => App\Helpers\Currency::class,
     ])->toArray(),
 
 ];
