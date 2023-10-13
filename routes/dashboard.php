@@ -8,13 +8,21 @@ use App\Http\Controllers\StoreController;
 use Illuminate\Support\Facades\Route;
 
 
-Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
+Route::group([
+    'middleware' =>['auth','CheckUserType:admin,super_admin'],
+    // 'as' =>'dashboard.',
+    'prefix' => 'dashboard',
+], function(){
+
+
+Route::get('/', [DashboardController::class, 'index'])->middleware(['auth'])->name('dashboard');
+
+
+Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
 
 
 Route::get('/categories/trash', [CategoryController::class, 'trash'])->name('categories.trash');
@@ -35,3 +43,4 @@ Route::delete('/stores/{store}/force-delete', [StoreController::class, 'force_de
 Route::resource('categories', CategoryController::class)->middleware("auth");
 Route::resource('products', ProductController::class)->middleware("auth");
 Route::resource('stores', StoreController::class)->middleware("auth");
+});

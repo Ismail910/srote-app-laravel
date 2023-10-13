@@ -12,6 +12,6 @@ class VerifyCsrfToken extends Middleware
      * @var array<int, string>
      */
     protected $except = [
-        //
+        // لاستثناء اي url خارجي ممكن يبعتلي معلومات مقل paypal او غيرها 
     ];
 }
