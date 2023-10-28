@@ -2,6 +2,7 @@
 
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Front\CartController;
 use App\Http\Controllers\Front\HomeController;
 use App\Http\Controllers\Front\ProductController ;
 
@@ -26,6 +27,7 @@ Route::get('/', [HomeController::class , 'index'])->name('home');
 Route::get('/product', [ProductController::class , 'index'])->name('product.index');
 Route::get('/product/{product:slug}', [ProductController::class , 'show'])->name('product.details');
 
+Route::resource('cart', CartController::class);
 
 Route::get('/login/google', [DashboardController::class, 'redirectToGoogle']);
 Route::get('/login/google/callback', [DashboardController::class, 'handleGoogleCallback']);

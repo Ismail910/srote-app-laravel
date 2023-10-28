@@ -27,7 +27,7 @@ class ProfileController extends Controller
         $user = Auth::user();
         return view('profile.edit', [
             'user' => $user,
-
+            // composer require symfony/intl
             'countries' => Countries::getNames("en"),
             'locales' => Languages::getNames("en"),
 

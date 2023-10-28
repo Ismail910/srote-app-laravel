@@ -1,15 +1,6 @@
 <x-front-layout>
    
 
-
-
-
-
-
-
-
-
-   
     <section class="hero-area">
         <div class="container">
             <div class="row">
